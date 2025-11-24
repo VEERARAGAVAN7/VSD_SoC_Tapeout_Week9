@@ -14,9 +14,9 @@
   - [VSDBabySoC — Placement](#vsdbabysoc--placement)
   - [VSDBabySoC — Clock Tree Synthesis](#vsdbabysoc--clock-tree-synthesis)
   - [VSDBabySoC — Routing](#vsdbabysoc--routing)
-  - [VSDBabySoC — Convert .odb to .def in OpenROAD](#convert-odb-to-def-in-openroad)
-  - [VSDBabySoC — Post-Route SPEF Generation](#post-route-spef-generation)
-  - [VSDBabySoC — Post-Route Timing Closure](#post-route-timing-closure)
+  - [VSDBabySoC — Convert .odb to .def in OpenROAD](#vsdbabysoc--convert-odb-to-def-in-openroad)
+  - [VSDBabySoC — Post-Route SPEF Generation](#vsdbabysoc--post-route-spef-generation)
+  - [VSDBabySoC — Post-Route Timing Closure](#vsdbabysoc--post-route-timing-closure)
 
 
 
@@ -1556,7 +1556,7 @@ Where:
 
 ![Alt Text](Screenshots/rt6.png)
 
-##  `VSDBabySoC — Convert `.odb` to `.def` in OpenROAD`
+## `VSDBabySoC — Convert `.odb` to `.def` in OpenROAD`
 
 Follow the steps below to export a DEF file from an existing OpenDB (`.odb`) database.
 
@@ -1577,7 +1577,7 @@ gvim /home/veeraragavan/OpenROAD-flow-scripts/flow/results/sky130hd/vsdbabysoc/b
 ```
 ![Alt Text](Screenshots/odb2def2.png)
 
-##  `VSDBabySoC — Post-Route SPEF generation`
+## `VSDBabySoC — Post-Route SPEF generation`
 
 This section covers the step-by-step procedure to generate the **post-route Standard Parasitic Exchange Format (SPEF)** and **post-placement Verilog netlist** for the `VSDBabySoC` design using OpenROAD. These outputs are essential for accurate timing analysis and signoff after the routing stage. The SPEF file captures parasitic RC effects from the physical layout, while the updated Verilog reflects the final net connections post-placement and routing.
 
@@ -1669,7 +1669,7 @@ gvim /home/veeraragavan/OpenROAD-flow-scripts/flow/designs/sky130hd/vsdbabysoc/v
 ![Alt Text](Screenshots/v1.png)
 
 
-##  `VSDBabySoC — Post-Route Timing Closure`
+## `VSDBabySoC — Post-Route Timing Closure`
 
 ### 🎯 Objective
 To perform Post-Layout Static Timing Analysis (STA) using the SPEF extracted after routing in Week 7, analyze timing across multiple PVT corners, and compare the results with Week 3 post-synthesis timing.
