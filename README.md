@@ -20,117 +20,91 @@
 
 ## 📅 Week 9 — Final Documentation of the Complete RTL-to-GDS Flow
 
-This week focuses on compiling and documenting **all stages** of the VSDBabySoC design flow—from RTL code to final GDS.  
-Every major step performed in Weeks 1–8 is consolidated into a single, clean, tape-out-ready documentation file.
+Week 9 is fully dedicated to consolidating every stage of the VSDBabySoC development—from RTL design to final GDS.  
+This final documentation captures **all implementation steps**, **verification stages**, and **physical design results**, forming a complete tape-out ready report.
 
 ---
 
 ## 🧪 Introduction to the VSDBabySoC
 
-### 📘 Summary  
-Provided an overview of the VSDBabySoC design, architecture, modules, and integration structure.  
-Covered the motivation, design goals, and functional blocks powering the RISC-V subsystem.
+The VSDBabySoC integrates a compact RISC-V core, supporting logic, and peripheral modules inside a Sky130-based SoC environment.  
+This section explains the SoC architecture, module interactions, signal flow, and the purpose of each component, laying the foundation for the RTL-to-GDS design journey.
 
 ---
 
 ## 🧪 VSDBabySoC – Pre-Synthesis Simulation
 
-### 📘 Summary  
-Performed functional verification using testbenches to validate RTL behavior.  
-Ensured that the input stimuli produced correct outputs and that the design matched the expected ISA flow.
+Before synthesizing the RTL, the design was validated using functional testbenches.  
+This simulation ensured that the input–output behavior of the RTL matched the expected logic, confirming correctness in instruction execution and control-datapath behavior.
 
 ---
 
 ## 🧪 VSDBabySoC – Synthesis Process
 
-### 📘 Summary  
-Converted RTL to gate-level netlist using open-source tools.  
-Technology-mapped logical cells to Sky130 standard cells and generated area/timing reports.
+RTL was converted into a gate-level netlist using technology-mapped Sky130 standard cells.  
+This stage included logic optimization, constraint handling, and report generation for timing, area, and hierarchy. The synthesized netlist became the foundation for backend flow.
 
 ---
 
 ## 🧪 VSDBabySoC – Post-Synthesis Simulation (GLS)
 
-### 📘 Summary  
-Simulated the gate-level netlist to verify correctness after synthesis.  
-GLS ensured logical equivalence and confirmed that the timing-annotated netlist produced the same outputs as RTL.
+Gate-Level Simulation validated the synthesized netlist with real cell delays.  
+This confirmed that synthesis preserved functionality and that the gate-level model produced the same outputs as the RTL under actual timing behavior.
 
 ---
 
 ## 🧪 VSDBabySoC – Static Timing Analysis (STA)
 
-### 📘 Summary  
-Analyzed setup and hold timing based on synthesized netlist before layout.  
-This established the timing baseline for later comparison with post-layout STA.
+Timing analysis identified setup/hold slacks, critical paths, and timing margin before layout.  
+This stage created the “baseline timings” used later for comparison with post-layout timing, helping understand how routing parasitics affect performance.
 
----
-
-## 🧪 VSDBabySoC – Physical Design of VSDBabySoC in OpenROAD
-
-### Contents of Config.mk  
-Provided complete configuration settings including library paths, macro placements, constraints, and environment setup.
-
----
-
-### 🧪 VSDBabySoC — Synthesis
-
-### 📘 Summary  
-Executed physical design synthesis, generating technology-mapped netlists.  
-Verified initial timing and ensured all constraints were met.
-
----
 
 ### 🧪 VSDBabySoC — Floorplan
 
-### 📘 Summary  
-Defined die/core area, macro placement, pin arrangement, power grid planning, and utilized routing channels efficiently.
+Die size, core area, macro placement, pin arrangement, and power grid configuration were finalized during floorplanning.  
+A well-structured floorplan ensured low congestion, clean routing channels, and stable power distribution.
 
 ---
 
 ### 🧪 VSDBabySoC — Placement
 
-### 📘 Summary  
-Performed global and detailed placement of all standard cells.  
-Ensured optimal cell spacing and minimized wirelength, congestion, and routing violations.
+Standard cells were arranged to minimize wirelength and avoid routing congestion.  
+Both global and detailed placement ensured legal positioning, optimized timing, and improved routing efficiency.
 
 ---
 
 ### 🧪 VSDBabySoC — Clock Tree Synthesis
 
-### 📘 Summary  
-Built a balanced, low-skew clock network.  
-Inserted buffers to distribute clock signals uniformly across the design.
+CTS built a balanced, low-skew clock distribution network using clock buffers and routing strategies.  
+This ensured that all sequential elements received the clock signal within controlled insertion delay and skew limits.
 
 ---
 
 ### 🧪 VSDBabySoC — Routing
 
-### 📘 Summary  
-Completed global and detailed routing for the entire SoC.  
-Connected all nets using metal layers while obeying DRC rules.
+Routing connected all placed cells and macros using allowed metal layers while meeting DRC rules.  
+The final routed layout was congestion-free, timing-aware, and ready for signoff checks.
 
 ---
 
 ## 🧪 VSDBabySoC — Convert .odb to .def in OpenROAD
 
-### 📘 Summary  
-Converted the OpenDB representation to DEF to enable cross-tool visualization and downstream physical verification.
+The routed OpenDB database was exported into .def format to enable external visualization and additional verification stages.  
+This conversion is essential for LVS, DRC, and other post-route processing tools.
 
 ---
 
 ## 🧪 VSDBabySoC — Post-Route SPEF Generation
 
-### 📘 Summary  
-Extracted parasitics—wire resistance, capacitance, and coupling—from the final routed design into SPEF format.  
-This SPEF enabled real, parasitic-aware timing analysis.
+Extracted parasitics (R, C, coupling effects) from the routed design into SPEF format.  
+These parasitics provide real wire delays and are essential for accurate post-layout STA.
 
 ---
 
 ## 🧪 VSDBabySoC — Post-Route Timing Closure
 
-### 📘 Summary  
-Performed final STA across real routed nets using SPEF annotation.  
-Verified setup/hold timing for all corner cases and ensured slack margins were met before tape-out.
+Post-layout STA was performed using parasitics from the SPEF file across multiple PVT corners.  
+Setup and hold slacks were validated, ensuring timing closure before tape-out.
 
 ---
 
