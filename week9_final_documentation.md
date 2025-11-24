@@ -1,6 +1,25 @@
 # WEEK 9 - FINAL DOCUMENTATION FOR VSDBABYSOC
 
-## `Introduction to the VSDBabySoC`
+### 📚 Contents
+
+- [🧪 Introduction to the VSDBabySoC](#🧪-introduction-to-the-vsdbabysoc)
+- [🧪 VSDBabySoC – Pre-Synthesis Simulation](#🧪-vsdbabysoc--pre-synthesis-simulation)
+- [🧪 VSDBabySoC – Synthesis Process](#🧪-vsdbabysoc--synthesis-process)
+- [🧪 VSDBabySoC – Post-Synthesis Simulation (GLS)](#🧪-vsdbabysoc--post-synthesis-simulation-gls)
+- [🧪 VSDBabySoC – Static Timing Analysis (STA)](#🧪-vsdbabysoc--static-timing-analysis-sta)
+- [🧪 VSDBabySoC – Physical Design of VSDBabySoC in OpenROAD](#🧪-vsdbabysoc--physical-design-of-vsdbabysoc-in-openroad)
+  - [Contents of Config.mk](#contents-of-configmk)
+  - [🧪 VSDBabySoC — Synthesis](#🧪-vsdbabysoc--synthesis)
+  - [🧪 VSDBabySoC — Floorplan](#🧪-vsdbabysoc--floorplan)
+  - [🧪 VSDBabySoC — Placement](#🧪-vsdbabysoc--placement)
+  - [🧪 VSDBabySoC — Clock Tree Synthesis](#🧪-vsdbabysoc--clock-tree-synthesis)
+  - [🧪 VSDBabySoC — Routing](#🧪-vsdbabysoc--routing)
+  - [🧪 VSDBabySoC — Convert .odb to .def in OpenROAD](#🧪-vsdbabysoc--convert-odb-to-def-in-openroad)
+  - [🧪 VSDBabySoC — Post-Route SPEF Generation](#🧪-vsdbabysoc--post-route-spef-generation)
+  - [🧪 VSDBabySoC — Post-Route Timing Closure](#🧪-vsdbabysoc--post-route-timing-closure)
+
+
+## `🧪 Introduction to the VSDBabySoC`
 VSDBabySoC is a small yet powerful RISCV-based SoC.
 
 The main purpose of designing such a small SoC is to test three open-source IP cores together for the first time and calibrate the analog part of it.
@@ -61,7 +80,7 @@ VSDBabySoC/
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-## `🧪 VSDBabySoC –  Pre-Synthesis Simulation`
+## `🧪 VSDBabySoC – Pre-Synthesis Simulation`
 
 ### 📖 Overview
 
@@ -392,7 +411,7 @@ gtkwave post_synth_sim.vcd
 - Missing standard cell models: Ensure sky130_fd_sc_hd.v is always included.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
-## `🧪 VSDBabySoC –  ⏱️ Static Timing Analysis (STA)`
+## `🧪 VSDBabySoC – Static Timing Analysis (STA)`
 
 **Static Timing Analysis (STA)** is a **cornerstone step in the VLSI design flow** — performed after synthesis and before layout (and repeated after layout).  
 It verifies that the **design meets timing constraints** without running functional simulations.
@@ -612,7 +631,7 @@ Fanout       Cap      Slew     Delay      Time   Description
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
-## `🧪 VSDBabySoC – Synthesis, Floorplan and Placement of VSDBabySoC in OpenROAD` 
+## `🧪 VSDBabySoC – Physical Design of VSDBabySoC in OpenROAD` 
 
 ### `OpenROAD Installation`
 
@@ -840,7 +859,7 @@ drwxrwxr-x 2 veeraragavan veeraragavan 4.0K Jun 29 16:06 lib
 ```
 
 
-## `🧪 VSDBabySoC —  Synthesis`
+## `🧪 VSDBabySoC — Synthesis`
 
 Before running the updated flow, make sure to remove any previously generated results, logs, and intermediate files. Use the following command:
 
@@ -881,7 +900,7 @@ gvim reports/sky130hd/vsdbabysoc/base/synth_check.txt
 ![Alt Text](Screenshots/synth4.png)
 
 
-## `VSDBabySoC — Floorplan`
+## `🧪 VSDBabySoC — Floorplan`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk floorplan
@@ -902,7 +921,7 @@ This image shows the floorplan view in OpenROAD where you can see two macros pla
 ![Alt Text](Screenshots/fp3.png)
 
 
-## `VSDBabySoC — Placement`
+## `🧪 VSDBabySoC — Placement`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk place
@@ -945,7 +964,7 @@ This image shows the **Pin Density Heatmap** after the placement stage.
 ![Alt Text](Screenshots/p5.png)
 
 
-## `VSDBabySoC — Clock Tree Synthesis`
+## `🧪 VSDBabySoC — Clock Tree Synthesis`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk cts
@@ -1500,7 +1519,7 @@ Total                  7.71e-03   4.23e-03   2.11e-08   1.19e-02 100.0%
 </details>
 
 
-## `VSDBabySoC — Routing`
+## `🧪 VSDBabySoC — Routing`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk route
@@ -1536,7 +1555,7 @@ Where:
 
 ![Alt Text](Screenshots/rt6.png)
 
-## ` VSDBabySoC — 🔄 Convert .odb` to `.def` in OpenROAD`
+## `🧪 VSDBabySoC — Convert `.odb` to `.def` in OpenROAD`
 
 Follow the steps below to export a DEF file from an existing OpenDB (`.odb`) database.
 
@@ -1557,7 +1576,7 @@ gvim /home/veeraragavan/OpenROAD-flow-scripts/flow/results/sky130hd/vsdbabysoc/b
 ```
 ![Alt Text](Screenshots/odb2def2.png)
 
-## ` VSDBabySoC — post_route SPEF generation`
+## `🧪 VSDBabySoC — Post-Route SPEF generation`
 
 This section covers the step-by-step procedure to generate the **post-route Standard Parasitic Exchange Format (SPEF)** and **post-placement Verilog netlist** for the `VSDBabySoC` design using OpenROAD. These outputs are essential for accurate timing analysis and signoff after the routing stage. The SPEF file captures parasitic RC effects from the physical layout, while the updated Verilog reflects the final net connections post-placement and routing.
 
@@ -1649,7 +1668,7 @@ gvim /home/veeraragavan/OpenROAD-flow-scripts/flow/designs/sky130hd/vsdbabysoc/v
 ![Alt Text](Screenshots/v1.png)
 
 
-## `VSDBabySoC — Post-Route Timing Closure`
+## `🧪 VSDBabySoC — Post-Route Timing Closure`
 
 ### 🎯 Objective
 To perform Post-Layout Static Timing Analysis (STA) using the SPEF extracted after routing in Week 7, analyze timing across multiple PVT corners, and compare the results with Week 3 post-synthesis timing.
