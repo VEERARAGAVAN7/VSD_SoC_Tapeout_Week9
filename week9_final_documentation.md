@@ -881,7 +881,7 @@ gvim reports/sky130hd/vsdbabysoc/base/synth_check.txt
 ![Alt Text](Screenshots/synth4.png)
 
 
-## `VSDBabySoC — FLoorplan`
+## `VSDBabySoC — Floorplan`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk floorplan
