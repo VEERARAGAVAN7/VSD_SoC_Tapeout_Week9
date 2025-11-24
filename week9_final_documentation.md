@@ -139,7 +139,7 @@ code:
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-## 🧪 `VSDBabySoC – Synthesis Process`
+##  `VSDBabySoC – Synthesis Process`
 
 - This document explains the complete RTL-to-Gates synthesis flow of the VSDBabySoC using Yosys.
 
@@ -315,7 +315,7 @@ yosys> write_verilog -noattr ~/VSD_Soc_TapeOut_Program/week2/VSDBabySoC/output/p
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-## 🧪 `VSDBabySoC – Post-Synthesis Simulation (GLS)`
+##  `VSDBabySoC – Post-Synthesis Simulation (GLS)`
 
 After synthesis, the RTL design is converted into a gate-level netlist mapped to the SKY130 standard cell library. To ensure that the synthesized design is functionally equivalent to the RTL, we run a Post-Synthesis Simulation (GLS).
 
@@ -412,7 +412,7 @@ gtkwave post_synth_sim.vcd
 - Missing standard cell models: Ensure sky130_fd_sc_hd.v is always included.
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
-## 🧪 `VSDBabySoC – Static Timing Analysis (STA)`
+##  `VSDBabySoC – Static Timing Analysis (STA)`
 
 **Static Timing Analysis (STA)** is a **cornerstone step in the VLSI design flow** — performed after synthesis and before layout (and repeated after layout).  
 It verifies that the **design meets timing constraints** without running functional simulations.
@@ -632,7 +632,7 @@ Fanout       Cap      Slew     Delay      Time   Description
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
-## 🧪 `VSDBabySoC – Physical Design of VSDBabySoC in OpenROAD` 
+##  `VSDBabySoC – Physical Design of VSDBabySoC in OpenROAD` 
 
 ### `OpenROAD Installation`
 
@@ -860,7 +860,7 @@ drwxrwxr-x 2 veeraragavan veeraragavan 4.0K Jun 29 16:06 lib
 ```
 
 
-## 🧪 `VSDBabySoC — Synthesis`
+##  `VSDBabySoC — Synthesis`
 
 Before running the updated flow, make sure to remove any previously generated results, logs, and intermediate files. Use the following command:
 
@@ -901,7 +901,7 @@ gvim reports/sky130hd/vsdbabysoc/base/synth_check.txt
 ![Alt Text](Screenshots/synth4.png)
 
 
-## 🧪 `VSDBabySoC — Floorplan`
+##  `VSDBabySoC — Floorplan`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk floorplan
@@ -922,7 +922,7 @@ This image shows the floorplan view in OpenROAD where you can see two macros pla
 ![Alt Text](Screenshots/fp3.png)
 
 
-## 🧪 `VSDBabySoC — Placement`
+##  `VSDBabySoC — Placement`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk place
@@ -965,7 +965,7 @@ This image shows the **Pin Density Heatmap** after the placement stage.
 ![Alt Text](Screenshots/p5.png)
 
 
-## 🧪 `VSDBabySoC — Clock Tree Synthesis`
+##  `VSDBabySoC — Clock Tree Synthesis`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk cts
@@ -1520,7 +1520,7 @@ Total                  7.71e-03   4.23e-03   2.11e-08   1.19e-02 100.0%
 </details>
 
 
-## 🧪 `VSDBabySoC — Routing`
+##  `VSDBabySoC — Routing`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk route
@@ -1556,7 +1556,7 @@ Where:
 
 ![Alt Text](Screenshots/rt6.png)
 
-## 🧪 `VSDBabySoC — Convert `.odb` to `.def` in OpenROAD`
+##  `VSDBabySoC — Convert `.odb` to `.def` in OpenROAD`
 
 Follow the steps below to export a DEF file from an existing OpenDB (`.odb`) database.
 
@@ -1577,7 +1577,7 @@ gvim /home/veeraragavan/OpenROAD-flow-scripts/flow/results/sky130hd/vsdbabysoc/b
 ```
 ![Alt Text](Screenshots/odb2def2.png)
 
-## 🧪 `VSDBabySoC — Post-Route SPEF generation`
+##  `VSDBabySoC — Post-Route SPEF generation`
 
 This section covers the step-by-step procedure to generate the **post-route Standard Parasitic Exchange Format (SPEF)** and **post-placement Verilog netlist** for the `VSDBabySoC` design using OpenROAD. These outputs are essential for accurate timing analysis and signoff after the routing stage. The SPEF file captures parasitic RC effects from the physical layout, while the updated Verilog reflects the final net connections post-placement and routing.
 
@@ -1669,7 +1669,7 @@ gvim /home/veeraragavan/OpenROAD-flow-scripts/flow/designs/sky130hd/vsdbabysoc/v
 ![Alt Text](Screenshots/v1.png)
 
 
-## 🧪 `VSDBabySoC — Post-Route Timing Closure`
+##  `VSDBabySoC — Post-Route Timing Closure`
 
 ### 🎯 Objective
 To perform Post-Layout Static Timing Analysis (STA) using the SPEF extracted after routing in Week 7, analyze timing across multiple PVT corners, and compare the results with Week 3 post-synthesis timing.
