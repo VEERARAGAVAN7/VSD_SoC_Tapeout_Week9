@@ -2,21 +2,22 @@
 
 ### 📚 Contents
 
-- [🧪 Introduction to the VSDBabySoC](#🧪-introduction-to-the-vsdbabysoc)
-- [🧪 VSDBabySoC – Pre-Synthesis Simulation](#🧪-vsdbabysoc--pre-synthesis-simulation)
-- [🧪 VSDBabySoC – Synthesis Process](#🧪-vsdbabysoc--synthesis-process)
-- [🧪 VSDBabySoC – Post-Synthesis Simulation (GLS)](#🧪-vsdbabysoc--post-synthesis-simulation-gls)
-- [🧪 VSDBabySoC – Static Timing Analysis (STA)](#🧪-vsdbabysoc--static-timing-analysis-sta)
-- [🧪 VSDBabySoC – Physical Design of VSDBabySoC in OpenROAD](#🧪-vsdbabysoc--physical-design-of-vsdbabysoc-in-openroad)
+- [Introduction to the VSDBabySoC](#introduction-to-the-vsdbabysoc)
+- [VSDBabySoC – Pre-Synthesis Simulation](#vsdbabysoc--pre-synthesis-simulation)
+- [VSDBabySoC – Synthesis Process](#vsdbabysoc--synthesis-process)
+- [VSDBabySoC – Post-Synthesis Simulation (GLS)](#vsdbabysoc--post-synthesis-simulation-gls)
+- [VSDBabySoC – Static Timing Analysis (STA)](#vsdbabysoc--static-timing-analysis-sta)
+- [VSDBabySoC – Physical Design of VSDBabySoC in OpenROAD](#vsdbabysoc--physical-design-of-vsdbabysoc-in-openroad)
   - [Contents of Config.mk](#contents-of-configmk)
-  - [🧪 VSDBabySoC — Synthesis](#🧪-vsdbabysoc--synthesis)
-  - [🧪 VSDBabySoC — Floorplan](#🧪-vsdbabysoc--floorplan)
-  - [🧪 VSDBabySoC — Placement](#🧪-vsdbabysoc--placement)
-  - [🧪 VSDBabySoC — Clock Tree Synthesis](#🧪-vsdbabysoc--clock-tree-synthesis)
-  - [🧪 VSDBabySoC — Routing](#🧪-vsdbabysoc--routing)
-  - [🧪 VSDBabySoC — Convert .odb to .def in OpenROAD](#🧪-vsdbabysoc--convert-odb-to-def-in-openroad)
-  - [🧪 VSDBabySoC — Post-Route SPEF Generation](#🧪-vsdbabysoc--post-route-spef-generation)
-  - [🧪 VSDBabySoC — Post-Route Timing Closure](#🧪-vsdbabysoc--post-route-timing-closure)
+  - [VSDBabySoC — Synthesis](#vsdbabysoc--synthesis)
+  - [VSDBabySoC — Floorplan](#vsdbabysoc--floorplan)
+  - [VSDBabySoC — Placement](#vsdbabysoc--placement)
+  - [VSDBabySoC — Clock Tree Synthesis](#vsdbabysoc--clock-tree-synthesis)
+  - [VSDBabySoC — Routing](#vsdbabysoc--routing)
+  - [Convert .odb to .def in OpenROAD](#convert-odb-to-def-in-openroad)
+  - [Post-Route SPEF Generation](#post-route-spef-generation)
+  - [Post-Route Timing Closure](#post-route-timing-closure)
+
 
 
 ## `🧪 Introduction to the VSDBabySoC`
