@@ -394,10 +394,224 @@ gtkwave post_synth_sim.vcd
 --------------------------------------------------------------------------------------------------------------------------------------------------
 ## `🧪 VSDBabySoC –  ⏱️ Static Timing Analysis (STA)`
 
+**Static Timing Analysis (STA)** is a **cornerstone step in the VLSI design flow** — performed after synthesis and before layout (and repeated after layout).  
+It verifies that the **design meets timing constraints** without running functional simulations.
+
+STA ensures that signals travel through the circuit within the required time limits to guarantee **reliable operation at the target clock frequency**.
+
+#### STA can be done in various stages of RTL to GDS flow
+
+![STA_FLOW](Screenshots/flow.png)
+---
+
+### ⚙️ **Understanding Timing Paths**
+
+Every timing path connects two sequential elements (or I/O ports). A typical **timing path** includes:
+
+Clock Source → Clock Network → Launch Flip-Flop → Combinational Logic → Capture Flip-Flop
 
 
 
+**Major timing paths:**
+1. **Input to Register Path** – from an input port to a flip-flop.  
+2. **Register to Register Path** – between two flip-flops (most common).  
+3. **Register to Output Path** – from a flip-flop to an output port.  
+4. **Input to Output Path** – purely combinational paths.  
 
+![Timing paths](Screenshots/tp.png)
+
+Each of these paths has **delay** that must satisfy timing constraints.
+
+---
+
+### 🕒 **Arrival Time & Required Time**
+
+### 🟦 **Arrival Time (AT):**
+The **actual time** at which a signal arrives at the destination (e.g., D-pin of a flip-flop).  
+It includes delays from:
+- Source clock edge
+- Propagation delay through launch flop
+- Delay through combinational logic and interconnect
+
+
+### 🟨 **Required Time (RT):**
+The **latest time** by which the signal must arrive to meet setup or hold constraints.  
+It depends on:
+- Clock period
+- Setup or hold time of the capturing flip-flop
+- Clock skew and jitter
+
+---
+
+### ⚖️ **Setup and Hold Analysis**
+
+Timing analysis focuses on ensuring that **setup and hold constraints** are satisfied for every path.
+
+### 🧩 **Setup Analysis:**
+Setup analysis ensures that data **arrives before the active clock edge** at the capturing flip-flop.
+
+{Setup Slack} = {Required Time} - {Arrival Time}
+
+
+- If **Slack ≥ 0** → Setup check passes ✅  
+- If **Slack < 0** → Setup violation ❌ (data arrives late)
+
+**Setup checks** are performed at **slow corner (max delay)** because longer delays increase the chance of violations.
+
+### ⚡ **Hold Analysis:**
+Hold analysis ensures that data **does not change too soon** after the clock edge, maintaining stability.
+
+{Hold Slack} = {Arrival Time} - {Required Time}
+
+
+- If **Slack ≥ 0** → Hold check passes ✅  
+- If **Slack < 0** → Hold violation ❌ (data changes too early)
+
+**Hold checks** are performed at **fast corner (min delay)** because faster paths may violate the hold constraint.
+
+---
+
+### 🧮 **Types of Timing Checks**
+
+| Type | Description | Example |
+|------|--------------|----------|
+| **Setup Check** | Ensures data arrives early enough before the next clock edge | Violated if path is too slow |
+| **Hold Check** | Ensures data remains stable after the clock edge | Violated if path is too fast |
+| **Recovery Check** | Ensures asynchronous control (like reset) deassertion occurs in time before active clock edge | Async reset release |
+| **Removal Check** | Ensures async signal is not removed too early after clock edge | Async reset hold time |
+| **Pulse Width Check** | Ensures clock or control pulses meet min high/low time | Clock duty cycle check |
+
+---
+
+### 📂 **Files Used in Static Timing Analysis**
+
+| File Type | Extension | Description |
+|------------|------------|--------------|
+| **Gate-Level Netlist** | `.v` | Output of synthesis (contains cell instances and interconnections) |
+| **Standard Cell Library** | `.lib` | Provides timing and power info for each standard cell at specific PVT corner |
+| **Constraints File** | `.sdc` | Defines clocks, input/output delays, exceptions, and design constraints |
+| **Parasitic File (optional)** | `.spef` / `.sdf` | Captures interconnect delays and capacitances after layout |
+| **Timing Report** | `.rpt` | Generated output showing slack, delay, and violations |
+
+---
+
+### 🧠 **STA Flow Summary**
+
+1. Read Libraries
+2. Read Netlist
+3. Read Contraints
+4. Update Timing
+5. Report Timing
+
+### Timing Analysis Using Inline Commands
+
+```tcl
+sta
+```
+
+```tcl
+# Load Liberty Libraries (standard cell + IPs)
+read_liberty -min /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/timing_libs/sky130_fd_sc_hd__tt_025C_1v80.lib
+read_liberty -max /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/timing_libs/sky130_fd_sc_hd__tt_025C_1v80.lib
+
+read_liberty -min /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/timing_libs/avsdpll.lib
+read_liberty -max /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/timing_libs/avsdpll.lib
+
+read_liberty -min /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/timing_libs/avsddac.lib
+read_liberty -max /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/timing_libs/avsddac.lib
+
+# Read Synthesized Netlist
+read_verilog /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/BabySoC/vsdbabysoc_net.v
+
+# Link the Top-Level Design
+link_design vsdbabysoc
+
+# Apply SDC Constraints
+read_sdc /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/BabySoC/vsdbabysoc_synthesis.sdc
+
+# Generate Timing Report
+report_checks -path_delay min_max -fields {nets cap slew input_pins fanout} -digits {4} > timing_report.txt
+report_tns -digits {4} > tns_report.txt
+report_wns -digits {4} > wns_report.txt
+
+# Generate Timing Report (and save to file)
+#report_checks -path_delay min_max -fields {nets cap slew input_pins fanout} -digits {4} 
+
+# Optional: also print summary to console
+puts "✅ STA completed successfully."
+
+```
+
+![STA_Setup](Screenshots/sta_bsyn.png)
+
+
+### `Contents of STA Report`
+
+<details> <summary><strong>STA.rpt</strong></summary>
+
+```
+Warning: SoC_Sta.tcl line 21, unknown field nets.
+Startpoint: _9493_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _10335_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: min
+
+Fanout       Cap      Slew     Delay      Time   Description
+-------------------------------------------------------------------------------------
+                    0.0000    0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock network delay (ideal)
+                    0.0000    0.0000    0.0000 ^ _9493_/CLK (sky130_fd_sc_hd__dfxtp_1)
+     1    0.0017    0.0329    0.2749    0.2749 ^ _9493_/Q (sky130_fd_sc_hd__dfxtp_1)
+                    0.0329    0.0000    0.2749 ^ _10335_/D (sky130_fd_sc_hd__dfxtp_1)
+                                        0.2749   data arrival time
+
+                    0.0000    0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock network delay (ideal)
+                              0.0000    0.0000   clock reconvergence pessimism
+                                        0.0000 ^ _10335_/CLK (sky130_fd_sc_hd__dfxtp_1)
+                             -0.0346   -0.0346   library hold time
+                                       -0.0346   data required time
+-------------------------------------------------------------------------------------
+                                       -0.0346   data required time
+                                       -0.2749   data arrival time
+-------------------------------------------------------------------------------------
+                                        0.3096   slack (MET)
+
+
+Startpoint: _10450_ (rising edge-triggered flip-flop clocked by clk)
+Endpoint: _10015_ (rising edge-triggered flip-flop clocked by clk)
+Path Group: clk
+Path Type: max
+
+Fanout       Cap      Slew     Delay      Time   Description
+-------------------------------------------------------------------------------------
+                    0.0000    0.0000    0.0000   clock clk (rise edge)
+                              0.0000    0.0000   clock network delay (ideal)
+                    0.0000    0.0000    0.0000 ^ _10450_/CLK (sky130_fd_sc_hd__dfxtp_1)
+   242    0.6005    5.5249    4.1333    4.1333 ^ _10450_/Q (sky130_fd_sc_hd__dfxtp_1)
+                    5.5249    0.0000    4.1333 ^ _8121_/A (sky130_fd_sc_hd__clkinv_1)
+   271    0.4510    2.0357    5.0555    9.1889 v _8121_/Y (sky130_fd_sc_hd__clkinv_1)
+                    2.0357    0.0000    9.1889 v _8599_/B1 (sky130_fd_sc_hd__o211ai_1)
+     1    0.0017    0.3801    0.5665    9.7554 ^ _8599_/Y (sky130_fd_sc_hd__o211ai_1)
+                    0.3801    0.0000    9.7554 ^ _10015_/D (sky130_fd_sc_hd__dfxtp_1)
+                                        9.7554   data arrival time
+
+                    0.0000   11.0000   11.0000   clock clk (rise edge)
+                              0.0000   11.0000   clock network delay (ideal)
+                              0.0000   11.0000   clock reconvergence pessimism
+                                       11.0000 ^ _10015_/CLK (sky130_fd_sc_hd__dfxtp_1)
+                             -0.1386   10.8614   library setup time
+                                       10.8614   data required time
+-------------------------------------------------------------------------------------
+                                       10.8614   data required time
+                                       -9.7554   data arrival time
+-------------------------------------------------------------------------------------
+                                        1.1060   slack (MET)
+
+
+
+```
+</details>
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
