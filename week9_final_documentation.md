@@ -1,4 +1,6 @@
-## Introduction to the VSDBabySoC
+# WEEK 9 - FINAL DOCUMENTATION FOR VSDBABYSOC
+
+## `Introduction to the VSDBabySoC`
 VSDBabySoC is a small yet powerful RISCV-based SoC.
 
 The main purpose of designing such a small SoC is to test three open-source IP cores together for the first time and calibrate the analog part of it.
@@ -44,6 +46,10 @@ VSDBabySoC/
 │   │   ├── avsdpll.v
 │   │   ├── vsdbabysoc.v
 │   │   └── testbench.v
+|   ├── libs/
+|   |   ├──avsddac.lib
+|   |   ├──avsdpll.lib
+|   |   ├──sky130.lib
 ├── output/          
 |   └── synthesis/              # outputs files (.v,.lef,.def,.spef,.odb)
 |   └── floorplan/
@@ -53,16 +59,9 @@ VSDBabySoC/
 └── README.md                   # Documentation
 ```
 
-
-
-
-
-
-
-
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-## 🧪 Pre-Synthesis Simulation – VSDBabySoC
+## `🧪 VSDBabySoC –  Pre-Synthesis Simulation`
 
 ### 📖 Overview
 
@@ -118,15 +117,9 @@ code:
 
 ![GTKWave Waveform](Screenshots/pre_synth_wf.png)
 
-### 📊 Expected Outcome
-
--  ✅ Functional verification of vsdbabysoc design.
--  ✅ dump.vcd generated successfully.
--  ✅ Waveforms showing RISC-V core signals, DAC, and PLL connections.
-
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-## 🔧 Synthesis Process – VSDBabySoC
+## `🧪 VSDBabySoC – Synthesis Process`
 
 - This document explains the complete RTL-to-Gates synthesis flow of the VSDBabySoC using Yosys.
 
@@ -230,9 +223,7 @@ yosys> opt
 ```
 - opt → Performs logic optimizations (constant propagation, dead code removal).
 
-
 ![Optimization](Screenshots/optimization.png)
-
 
 ### Technology Mapping
 
@@ -244,9 +235,7 @@ yosys> abc -liberty ~/VSD_Soc_TapeOut_Program/VSDBabySoC/src/lib/sky130_fd_sc_hd
 ```
 - abc → The heart of synthesis: maps logic to real SKY130 cells, performs retiming & optimization.
 
-
 ![Lib_Mapping](Screenshots/tech_map.png)
-
 
 ### flatten the Design
 
@@ -257,9 +246,7 @@ yosys> flatten
 ```
 - flatten → Flattens hierarchy → single-level netlist for easier P&R.
 
-
 ![Flatten](Screenshots/flatten.png)
-
 
 ### Unused cells, wires removal
 
@@ -274,10 +261,7 @@ yosys> rename -enumerate
 - clean -purge → Removes unused signals/cells.
 - rename -enumerate → Renames all nets/cells sequentially for readability.
 
-
 ![Removal](Screenshots/remove_unwants.png)
-
-
 
 ### 6️⃣ Generate Statistics
 
@@ -292,7 +276,6 @@ yosys> stat
 
 
 ![Statistics](Screenshots/statistics.png)
-
 
 
 ### 7️⃣ Write Final Netlist
@@ -310,18 +293,9 @@ yosys> write_verilog -noattr ~/VSD_Soc_TapeOut_Program/week2/VSDBabySoC/output/p
 
 ![Write_Netlist](Screenshots/write_netlist.png)
 
-
-
-### ✅ Expected Outcome
-
-At the end of synthesis:
-- --->RTL is successfully mapped to SKY130 technology cells.
-- --->Netlist (vsdbabysoc_net.vs) is generated for post-synthesis simulation.
-- --->Design is now ready for logic verification and physical design (PnR).
-
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-## 🧪 Post-Synthesis Simulation (GLS) – VSDBabySoC
+## `🧪 VSDBabySoC – Post-Synthesis Simulation (GLS)`
 
 After synthesis, the RTL design is converted into a gate-level netlist mapped to the SKY130 standard cell library. To ensure that the synthesized design is functionally equivalent to the RTL, we run a Post-Synthesis Simulation (GLS).
 
@@ -355,8 +329,6 @@ bash
 
 cp -r ~/VSD_Soc_TapeOut_Program/week2/VSDBabySoC/output/post_synth_sim/vsdbabysoc.synth.v ~/VLSI/VSDBabySoC/src/module/
 ```
-
-
 
 ### 🚀 Compilation and Simulation
 
@@ -397,7 +369,6 @@ output/post_synth_sim/
 
 ```
 bash 
-
 gtkwave post_synth_sim.vcd
 ```
 - Compare outputs of Pre-Synth Simulation vs Post-Synth Simulation.
@@ -420,28 +391,21 @@ gtkwave post_synth_sim.vcd
 - Mismatch with RTL: May occur if synthesis optimizations removed unused logic.
 - Missing standard cell models: Ensure sky130_fd_sc_hd.v is always included.
 
-
-### ✅ Expected Outcome
-
-- Waveforms of GLS = Waveforms of RTL simulation.
-- Confirms that synthesis preserved functional correctness.
-- Generated netlist (vsdbabysoc_net.vs) is now verified for use in physical design (PnR).
-
 --------------------------------------------------------------------------------------------------------------------------------------------------
-# ⏱️ Static Timing Analysis (STA) - VSDBabySoC
+## `🧪 VSDBabySoC –  ⏱️ Static Timing Analysis (STA)`
 
 
---------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
-## Synthesis, Floorplan and Placement of VSDBabySoC in OpenROAD 
+## `🧪 VSDBabySoC – Synthesis, Floorplan and Placement of VSDBabySoC in OpenROAD` 
 
 ### `OpenROAD Installation`
 
-#### Steps to install the OpenROAD :
+#### Steps to install the OpenROAD:
 ```
 #1. Download repository
 $ git clone --recursive https://github.com/The-OpenROAD-Project/OpenROAD.git
@@ -465,7 +429,7 @@ The below picture ensures the OpenRoad installation :
 
 ![OpenROAD_Installation](Screenshots/openroad.png)
 
-###  `RTL2GDS Flow for VSDBabySoC: Initial Steps`
+###  RTL2GDS Flow for VSDBabySoC: Initial Steps
 
 1. **Create Directories:**
    - Inside `OpenROAD-flow-scripts/flow/designs/sky130hd/`, create a folder named `vsdbabysoc`.
@@ -571,7 +535,7 @@ This script sets up environment variables and configurations for the design and 
 
 --------
 
-### `Key Components of config.mk`
+### Key Components of config.mk
 
 #### Design and Platform Configuration
 - **DESIGN_NICKNAME & DESIGN_NAME**: Both are set to "vsdbabysoc," serving as the identifier for the design project.
@@ -664,7 +628,8 @@ lrwxrwxrwx 1 veeraragavan veeraragavan   69 Jun 29 15:55 pin_order.cfg -> /home/
 drwxrwxr-x 2 veeraragavan veeraragavan 4.0K Jun 29 16:06 lib
 ```
 
-## `run synthesis`
+
+## `🧪 VSDBabySoC —  Synthesis`
 
 Before running the updated flow, make sure to remove any previously generated results, logs, and intermediate files. Use the following command:
 
@@ -705,7 +670,7 @@ gvim reports/sky130hd/vsdbabysoc/base/synth_check.txt
 ![Alt Text](Screenshots/synth4.png)
 
 
-## `run floorplan`
+## `VSDBabySoC — FLoorplan`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk floorplan
@@ -726,7 +691,7 @@ This image shows the floorplan view in OpenROAD where you can see two macros pla
 ![Alt Text](Screenshots/fp3.png)
 
 
-## `run placement`
+## `VSDBabySoC — Placement`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk place
@@ -769,7 +734,7 @@ This image shows the **Pin Density Heatmap** after the placement stage.
 ![Alt Text](Screenshots/p5.png)
 
 
-## `run cts`
+## `VSDBabySoC — Clock Tree Synthesis`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk cts
@@ -1324,7 +1289,7 @@ Total                  7.71e-03   4.23e-03   2.11e-08   1.19e-02 100.0%
 </details>
 
 
-## `run routing`
+## `VSDBabySoC — Routing`
 
 ```shell
 make DESIGN_CONFIG=./designs/sky130hd/vsdbabysoc/config.mk route
@@ -1360,7 +1325,7 @@ Where:
 
 ![Alt Text](Screenshots/rt6.png)
 
-### 🔄 Convert `.odb` to `.def` in OpenROAD
+## ` VSDBabySoC — 🔄 Convert .odb` to `.def` in OpenROAD`
 
 Follow the steps below to export a DEF file from an existing OpenDB (`.odb`) database.
 
@@ -1381,11 +1346,11 @@ gvim /home/veeraragavan/OpenROAD-flow-scripts/flow/results/sky130hd/vsdbabysoc/b
 ```
 ![Alt Text](Screenshots/odb2def2.png)
 
-### `VSDBabySoC post_route SPEF generation`
+## ` VSDBabySoC — post_route SPEF generation`
 
 This section covers the step-by-step procedure to generate the **post-route Standard Parasitic Exchange Format (SPEF)** and **post-placement Verilog netlist** for the `VSDBabySoC` design using OpenROAD. These outputs are essential for accurate timing analysis and signoff after the routing stage. The SPEF file captures parasitic RC effects from the physical layout, while the updated Verilog reflects the final net connections post-placement and routing.
 
-### `Step 1: Launch OpenROAD`
+### Step 1: Launch OpenROAD
 
 Before starting OpenROAD, set up the environment and navigate to the flow directory:
 
@@ -1398,7 +1363,7 @@ openroad
 
 ![Alt Text](Screenshots/openroad.png)
 
-### `Step 2: Load Design and Technology Files`
+### Step 2: Load Design and Technology Files
 
 Once inside the OpenROAD shell, run the following commands in sequence to load the required design and technology data for VSDBabySoC:
 
@@ -1473,9 +1438,9 @@ gvim /home/veeraragavan/OpenROAD-flow-scripts/flow/designs/sky130hd/vsdbabysoc/v
 ![Alt Text](Screenshots/v1.png)
 
 
-## VSDBabySoC — Post-Route Timing Closure Using OpenSTA
+## `VSDBabySoC — Post-Route Timing Closure`
 
-### 🎯 `Objective`
+### 🎯 Objective
 To perform Post-Layout Static Timing Analysis (STA) using the SPEF extracted after routing in Week 7, analyze timing across multiple PVT corners, and compare the results with Week 3 post-synthesis timing.
 
 - Post-route **gate-level netlist**
@@ -1501,7 +1466,7 @@ Post-route STA reveals:
 - Whether the SoC is **ready for fabrication**
 
 ---
-## 🚀 `Task Flow`
+### 🚀 Task Flow
 ---
 
 ### 1️⃣ `Load Post-Route Design into OpenSTA`
@@ -1523,7 +1488,6 @@ Load the required data:
 ### TCL Script
 
 <details> <summary><strong>sta_across_pvt_route.tcl</strong></summary>
-# (The above file are available in my system's /usr/local/share/pdk/sky130A/libs.ref/sky130_fd_sc_hd/lib directory)
 
  set list_of_lib_files(1) "sky130_fd_sc_hd__tt_025C_1v80.lib"
  set list_of_lib_files(2) "sky130_fd_sc_hd__ff_100C_1v65.lib"
@@ -1568,12 +1532,12 @@ Load the required data:
  }
 </details>
 
-### 2️⃣ `Run Post-Route STA Across PVT Corners`
+### 2️⃣ Run Post-Route STA Across PVT Corners
 
 Run multi-corner timing using the provided TCL script.
 
 ```shell
- % source/home/veeraragavan/VSD_Soc_TapeOut_Program/week8/Post_route_STA/src/sta_across_pvt_route.tcl
+ % source /home/veeraragavan/VSD_Soc_TapeOut_Program/week8/Post_route_STA/src/sta_across_pvt_route.tcl
 ```
 
 ![Alt Text](Screenshots/R_sta1.png)
@@ -1582,7 +1546,7 @@ After running the STA script, you can navigate to the `output` directory to see 
 
 ![Alt Text](Screenshots/R_sta2.png)
 
-### 3️⃣ `Generate Timing Reports & Graphs`
+### 3️⃣ Generate Timing Reports & Graphs
 
 Here is a tabulated view of the key timing results generated by the STA script.
 
@@ -1603,8 +1567,7 @@ Here is a tabulated view of the key timing results generated by the STA script.
 | **ss_n40C_1v76**       | 0.0000                     | 0.0000                        | 0.4868          | 0.0000          |
 
 
-
-### 📈 `Comparison Graphs`
+### 📈 Comparison Graphs
 
 Here is a graph showing the comparison of `worst-case hold slack` post-synthesis vs post-routing for the BabySoC design.
 
@@ -1623,7 +1586,7 @@ Here is a graph showing the comparison of `TNS` post-synthesis vs post-routing f
 ![Alt Text](Screenshots/TNS.png)
 
 
-### 4️⃣ `Week 3 vs Week 8 Timing Comparison`
+### 4️⃣ Week 3 vs Week 8 Timing Comparison
 
 The table below compares **Post-Synthesis Timing (Week 3)** with **Post-Route Timing (Week 8)** across all PVT corners using SPEF-annotated STA.
 
@@ -1647,7 +1610,7 @@ The table below compares **Post-Synthesis Timing (Week 3)** with **Post-Route Ti
 | ss_n40C_1v76      | -3.9606    | 0.0000     | -1905.4320  | 0.0000      | 0.5038      | 0.4868     | 0.0000     | 0.0000     |
 
 
-### 5️⃣ `Interpret Results`
+### 5️⃣ Interpret Results
 
 ### ⭐ Post-Synthesis vs Post-Route Timing Analysis (VSDBabySoC)
 ### Key Differences: Post-Synthesis vs Post-Route STA
