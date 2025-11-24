@@ -1556,7 +1556,7 @@ Where:
 
 ![Alt Text](Screenshots/rt6.png)
 
-## `VSDBabySoC — Convert `.odb` to `.def` in OpenROAD`
+## `VSDBabySoC — Convert .odb to .def in OpenROAD`
 
 Follow the steps below to export a DEF file from an existing OpenDB (`.odb`) database.
 
