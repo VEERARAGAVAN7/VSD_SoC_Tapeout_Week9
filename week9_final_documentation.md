@@ -81,7 +81,7 @@ VSDBabySoC/
 
 --------------------------------------------------------------------------------------------------------------------------------------------------
 
-## 🧪 `VSDBabySoC – Pre-Synthesis Simulation`
+## `VSDBabySoC – Pre-Synthesis Simulation`
 
 ### 📖 Overview
 
