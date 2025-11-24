@@ -14,9 +14,9 @@
   - [VSDBabySoC — Placement](#vsdbabysoc--placement)
   - [VSDBabySoC — Clock Tree Synthesis](#vsdbabysoc--clock-tree-synthesis)
   - [VSDBabySoC — Routing](#vsdbabysoc--routing)
-  - [VSDBabySoC — Convert .odb to .def in OpenROAD](#vsdbabysoc--convert-odb-to-def-in-openroad)
-  - [VSDBabySoC — Post-Route SPEF Generation](#vsdbabysoc--post-route-spef-generation)
-  - [VSDBabySoC — Post-Route Timing Closure](#vsdbabysoc--post-route-timing-closure)
+- [VSDBabySoC — Convert .odb to .def in OpenROAD](#vsdbabysoc--convert-odb-to-def-in-openroad)
+- [VSDBabySoC — Post-Route SPEF Generation](#vsdbabysoc--post-route-spef-generation)
+- [VSDBabySoC — Post-Route Timing Closure](#vsdbabysoc--post-route-timing-closure)
 
 
 
