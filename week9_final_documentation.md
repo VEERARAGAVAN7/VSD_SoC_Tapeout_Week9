@@ -529,13 +529,10 @@ link_design vsdbabysoc
 # Apply SDC Constraints
 read_sdc /home/veeraragavan/VSD_Soc_TapeOut_Program/week3/STA_analysis/BabySoC/vsdbabysoc_synthesis.sdc
 
-# Generate Timing Report
+# Generate Timing Report 
 report_checks -path_delay min_max -fields {nets cap slew input_pins fanout} -digits {4} > timing_report.txt
 report_tns -digits {4} > tns_report.txt
 report_wns -digits {4} > wns_report.txt
-
-# Generate Timing Report (and save to file)
-#report_checks -path_delay min_max -fields {nets cap slew input_pins fanout} -digits {4} 
 
 # Optional: also print summary to console
 puts "✅ STA completed successfully."
