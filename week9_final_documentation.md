@@ -133,7 +133,9 @@ A PLL typically consists of three main components:
 
    4. In VSDBabySoC:
       - In the VSDBabySoC design, we are utilizing a 10-bit DAC, which means it can take a digital input represented by 10 bits and convert it into an analog output.
-
+ 
+--
+ 
 ## 📂 Directory Structure
 
 ```
